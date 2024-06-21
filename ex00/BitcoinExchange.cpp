@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:34:04 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/21 14:18:35 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:12:25 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,8 @@ int BitcoinExchange::checkDates(std::string date)
 {
     if (date.size() != 10 || date[4] != '-' || date[7] != '-')
         error("Bad date format in the input file. Correct format should be YYYY-MM-DD.");
+    std::string year, month, day;
+    float quantity;
+    std::stringstream element;
     
 }
