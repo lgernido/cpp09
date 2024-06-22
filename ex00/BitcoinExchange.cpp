@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:34:04 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/21 15:12:25 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/22 14:17:35 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ BitcoinExchange::BitcoinExchange(BitcoinExchange const &src)
 
 BitcoinExchange::BitcoinExchange(std::string _inputFile) : _inputFile(_inputFile)
 {
-    /*Lire et parser le fichier*/
+    readCSV();
+    parseFile();
 }
 
 BitcoinExchange::~BitcoinExchange(){}
@@ -48,29 +49,30 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& src)
 void BitcoinExchange::readCSV()
 {
     std::ifstream database("data.csv");
-    std::string line:
+    std::string line;
 
     if(database.fail())
         error("Opening the database file.");
-    getline(database.line);
-    while(!database.eof)
+    getline(database, line);
+    while(!database.eof())
     {
-        getline(database.line);
+        getline(database, line);
         initRates(line);
     }
-    database.close()
+    database.close();
 }
 
 void BitcoinExchange::initRates(std::string line)
 {
-    std::stringstream data(line);
+    std::istringstream data(line);
     std::string date, rate;
 
-    getline(data, date, ",");
+    getline(data, date, ',');
     getline(data, rate);
 
     _btcMap[date] = atof(rate.c_str());
 }
+
 
 void BitcoinExchange::parseFile()
 {
@@ -83,7 +85,7 @@ void BitcoinExchange::parseFile()
 	if (line.compare("date | value") != 0)
 		error("Invalid input format.");
 	while (getline(inputFile, line))
-		// compareDates(line);
+		checkDates(line);
 	inputFile.close();
 	return ;
 }
@@ -96,10 +98,39 @@ void BitcoinExchange::error(std::string message)
 
 int BitcoinExchange::checkDates(std::string date)
 {
-    if (date.size() != 10 || date[4] != '-' || date[7] != '-')
-        error("Bad date format in the input file. Correct format should be YYYY-MM-DD.");
-    std::string year, month, day;
-    float quantity;
-    std::stringstream element;
-    
+    if (date.size() < 14 || date[4] != '-' || date[7] != '-')
+        std::cout << ORANGE BOLD << "Error: bad input => " << date << RESET << std::endl;
+    else
+    {
+        std::string year, month, day, btcNB;
+        std::istringstream element(date);
+
+        getline(element, year, '-');
+        if (year.size() != 4)
+        {
+            std::cout << ORANGE BOLD "Error: bad year input =>" << year << RESET << std::endl;
+            return (1);
+        }
+        getline(element, month, '-');
+        if(month.size() != 2 || static_cast<int>(atoi(month.c_str())) < 1 || static_cast<int>(atoi(month.c_str())) > 12)
+        {
+            std::cout << ORANGE BOLD "Error: bad month input => " << month << RESET << std::endl;
+            return (1);
+        }
+        getline(element, day, '|');
+        if(day.size() != 3 || static_cast<int>(atoi(day.c_str())) < 1 || static_cast<int>(atoi(day.c_str())) > 31)
+        {
+            std::cout << ORANGE BOLD "Error: bad day input => " << day << RESET << std::endl;
+            return (1);
+        }
+        getline(element, btcNB);
+        if (atof(btcNB.c_str()) > INT_MAX || atof(btcNB.c_str()) < INT_MIN)
+        {
+            std::cout << ORANGE BOLD << "Error: too large number" RESET << std::endl;
+            return (1);
+        }
+
+        std::cout << "year : " << year << " month: " << month << " day: " << day << " btc number: " << btcNB << std::endl;
+    }
+    return 0; 
 }

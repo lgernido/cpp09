@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:31:35 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/21 14:14:57 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/22 14:04:29 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <limits.h>
 
 /*****************************************************************************/
 /*                                  COLORS                                   */
@@ -56,7 +57,7 @@ class BitcoinExchange
         ~BitcoinExchange();
 
         BitcoinExchange(BitcoinExchange const &src);
-        BitcoinExchange& operator=(const BictoinExchange&src);
+        BitcoinExchange& operator=(const BitcoinExchange&src);
 
         BitcoinExchange(std::string _inputFile);
         
