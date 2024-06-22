@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:34:04 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/22 14:17:35 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/22 14:34:13 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& src)
 /*                            PUBLIC METHODS                                 */
 /*****************************************************************************/
 
+/*Checking the database file and initializing the corresponging map container*/
+
 void BitcoinExchange::readCSV()
 {
     std::ifstream database("data.csv");
@@ -74,6 +76,8 @@ void BitcoinExchange::initRates(std::string line)
 }
 
 
+/*Parsing the input file*/
+
 void BitcoinExchange::parseFile()
 {
     std::ifstream	inputFile(_inputFile.c_str());
@@ -85,15 +89,13 @@ void BitcoinExchange::parseFile()
 	if (line.compare("date | value") != 0)
 		error("Invalid input format.");
 	while (getline(inputFile, line))
-		checkDates(line);
+    {
+		if (checkDates(line) == 0)
+            initInput(line);     
+    }
+    
 	inputFile.close();
 	return ;
-}
-
-void BitcoinExchange::error(std::string message)
-{
-    std::cout << RED BOLD "Error: "<< message << RESET << std::endl;
-    exit(1);
 }
 
 int BitcoinExchange::checkDates(std::string date)
@@ -129,8 +131,29 @@ int BitcoinExchange::checkDates(std::string date)
             std::cout << ORANGE BOLD << "Error: too large number" RESET << std::endl;
             return (1);
         }
-
-        std::cout << "year : " << year << " month: " << month << " day: " << day << " btc number: " << btcNB << std::endl;
     }
     return 0; 
+}
+
+void BitcoinExchange::initInput(std::string line)
+{
+    std::istringstream data(line);
+    std::string date, rate;
+
+    getline(data, date, '|');
+    getline(data, rate);
+
+    _inputMap[date] = atof(rate.c_str());
+}
+
+/*Finding correct rate to the date in database file*/
+
+
+
+/*Utils*/
+
+void BitcoinExchange::error(std::string message)
+{
+    std::cout << RED BOLD "Error: "<< message << RESET << std::endl;
+    exit(1);
 }
