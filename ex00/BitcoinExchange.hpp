@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:31:35 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/22 14:23:41 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/24 09:24:08 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ class BitcoinExchange
         BitcoinExchange(std::string _inputFile);
         
         void error(std::string message);
+        void convertRate();
         
 
     private :
@@ -76,6 +77,7 @@ class BitcoinExchange
         void initInput(std::string line);
 
         int checkDates(std::string date);
+
     
 };
 /*****************************************************************************/

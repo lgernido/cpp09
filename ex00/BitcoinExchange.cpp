@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:34:04 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/22 14:34:13 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/24 09:39:58 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,10 @@ void BitcoinExchange::parseFile()
 	while (getline(inputFile, line))
     {
 		if (checkDates(line) == 0)
-            initInput(line);     
+        {
+            initInput(line);  
+            convertRate();
+        }
     }
     
 	inputFile.close();
@@ -101,7 +104,10 @@ void BitcoinExchange::parseFile()
 int BitcoinExchange::checkDates(std::string date)
 {
     if (date.size() < 14 || date[4] != '-' || date[7] != '-')
+    {
         std::cout << ORANGE BOLD << "Error: bad input => " << date << RESET << std::endl;
+        return (1);
+    }
     else
     {
         std::string year, month, day, btcNB;
@@ -131,6 +137,11 @@ int BitcoinExchange::checkDates(std::string date)
             std::cout << ORANGE BOLD << "Error: too large number" RESET << std::endl;
             return (1);
         }
+        else if (atof(btcNB.c_str()) < 0)
+        {
+            std::cout << ORANGE BOLD << "Error: not a positive number" RESET << std::endl;
+            return(1);
+        }
     }
     return 0; 
 }
@@ -138,17 +149,43 @@ int BitcoinExchange::checkDates(std::string date)
 void BitcoinExchange::initInput(std::string line)
 {
     std::istringstream data(line);
-    std::string date, rate;
+    std::string date, btcNB;
 
     getline(data, date, '|');
-    getline(data, rate);
+    getline(data, btcNB);
 
-    _inputMap[date] = atof(rate.c_str());
+    _inputMap[date] = atof(btcNB.c_str());
 }
 
 /*Finding correct rate to the date in database file*/
 
+void BitcoinExchange::convertRate(void)
+{
+    for (std::map<std::string, float>::iterator it = _inputMap.begin(); it != _inputMap.end(); ++it)
+    {
+        std::string date = it->first;
+        float btcNB = it->second;
+        
+        std::map<std::string, float>::iterator rateIt = _btcMap.lower_bound(date);
 
+        if (rateIt == _btcMap.end() || rateIt->first != date)
+        {
+            if (rateIt != _btcMap.begin())
+            {
+                rateIt--;
+                float rate = rateIt->second;
+                std::cout << date << " => " << btcNB << " = " << btcNB * rate << std::endl;
+            }
+            else
+                std::cout << "ERROR" << std::endl;
+        }
+        else
+        {
+            float rate = rateIt->second; 
+            std::cout << date << " => " << btcNB << " = " << btcNB * rate << std::endl;
+        }
+    }
+}
 
 /*Utils*/
 
