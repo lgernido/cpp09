@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:34:04 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/24 09:39:58 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/24 09:46:03 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,7 @@ void BitcoinExchange::parseFile()
             initInput(line);  
             convertRate();
         }
-    }
-    
+    }  
 	inputFile.close();
 	return ;
 }
