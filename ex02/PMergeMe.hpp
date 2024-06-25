@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RPN.hpp                                            :+:      :+:    :+:   */
+/*   PMergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/24 15:44:24 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/25 10:53:16 by lgernido         ###   ########.fr       */
+/*   Created: 2024/06/25 10:51:32 by lgernido          #+#    #+#             */
+/*   Updated: 2024/06/25 15:08:35 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RNP_HPP
-#define RNP_HPP
+#ifndef PMERGEME_HPP
+#define PMERGEME_HPP
 
 /*****************************************************************************/
 /*                                  INCLUDES                                 */
@@ -21,8 +21,9 @@
 #include <cctype>
 #include <algorithm>
 #include <cstdlib>
-#include <stack>
 #include <ctime>
+#include <list>
+#include <deque>
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -50,22 +51,29 @@
 /*                                  CLASS                                    */
 /*****************************************************************************/
 
-class RPN 
+class Merge
 {
     public :
-        RPN();
-        ~RPN();
+        Merge();
+        ~Merge();
 
-        RPN(RPN const &src);
-        RPN& operator=(const RPN& src);
+        Merge(Merge const &src);
+        Merge& operator=(const Merge& src);
 
-        RPN(std::stack<double> numbers);
+        int parseInput(char **argv);
 
-        void compute(std::string calculus);
+        void sortList();
+        std::deque<int> sortDeque(std::deque<int>& dq);
 
     private :
-        std::stack<double>numbers;
-};
+
+        std::list<unsigned int>list;
+        std::deque<unsigned int>deque;
+}
+
+/*****************************************************************************/
+/*                                  TEMPLATES                                */
+/*****************************************************************************/
 
 
 #endif
