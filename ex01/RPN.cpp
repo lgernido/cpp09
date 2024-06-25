@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:44:16 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/25 09:18:41 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/25 09:41:21 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,37 +54,31 @@ void RPN::compute(std::string calculus)
             int nb = element - '0';
             numbers.push(nb);
         }
-        else if (element == '+' && numbers.size() >= 2)
+        else if (numbers.size() >= 2)
         {
             double first = numbers.top();
             numbers.pop();
             double second = numbers.top();
             numbers.pop();
-            numbers.push(first + second);
-        }
-        else if (element == '-' && numbers.size()>= 2)
-        {
-            double first = numbers.top();
-            numbers.pop();
-            double second = numbers.top();
-            numbers.pop();
-            numbers.push(second - first);
-        }
-        else if (element == '*' && numbers.size() >= 2)
-        {
-            double first = numbers.top();
-            numbers.pop();
-            double second = numbers.top();
-            numbers.pop();
-            numbers.push(first * second);
-        }
-        else if (element == '/' && numbers.size() >= 2)
-        {
-            double first = numbers.top();
-            numbers.pop();
-            double second = numbers.top();
-            numbers.pop();
-            numbers.push(second / first);
+
+            switch (element)
+            {
+                case '+':
+                    numbers.push(second + first);
+                    break;
+                case '-':
+                    numbers.push(second - first);
+                    break;
+                case '*':
+                    numbers.push(second * first);
+                    break;
+                case '/':
+                    numbers.push(second / first);
+                    break;
+                default:
+                    std::cout << RED BOLD"Invalid input" RESET << std::endl;
+                    return;
+            }
         }
         else
         {
@@ -95,13 +89,11 @@ void RPN::compute(std::string calculus)
     if (numbers.size() == 1)
     {
         double result = numbers.top();
-        numbers.empty();
-        std::cout << GREEN BOLD "Result : " << result << std::endl;
-        return ;
+        numbers.pop();
+        std::cout << GREEN BOLD "Result : " << result << RESET << std::endl;
     }
     else
     {
         std::cout << RED BOLD "Invalid input" RESET << std::endl;
-        return ;
     }
 }

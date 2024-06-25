@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:31:35 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/24 09:24:08 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:41:50 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,17 @@ class BitcoinExchange
         BitcoinExchange(std::string _inputFile);
         
         void error(std::string message);
-        void convertRate();
+        void convertRate(std::string line);
         
 
     private :
 
         const std::string _inputFile;
         std::map<std::string, float>_btcMap;
-        std::map<std::string, float>_inputMap;
 
         void readCSV();
         void parseFile();
         void initRates(std::string line);
-        void initInput(std::string line);
 
         int checkDates(std::string date);
 

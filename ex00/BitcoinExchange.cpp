@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:34:04 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/24 09:46:03 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:43:10 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,7 @@ void BitcoinExchange::parseFile()
 	while (getline(inputFile, line))
     {
 		if (checkDates(line) == 0)
-        {
-            initInput(line);  
-            convertRate();
-        }
+            convertRate(line);
     }  
 	inputFile.close();
 	return ;
@@ -119,19 +116,19 @@ int BitcoinExchange::checkDates(std::string date)
             return (1);
         }
         getline(element, month, '-');
-        if(month.size() != 2 || static_cast<int>(atoi(month.c_str())) < 1 || static_cast<int>(atoi(month.c_str())) > 12)
+        if(month.size() != 2 || (atoi(month.c_str())) < 1 || (atoi(month.c_str())) > 12)
         {
             std::cout << ORANGE BOLD "Error: bad month input => " << month << RESET << std::endl;
             return (1);
         }
         getline(element, day, '|');
-        if(day.size() != 3 || static_cast<int>(atoi(day.c_str())) < 1 || static_cast<int>(atoi(day.c_str())) > 31)
+        if(day.size() != 3 || (atoi(day.c_str())) < 1 || (atoi(day.c_str())) > 31)
         {
             std::cout << ORANGE BOLD "Error: bad day input => " << day << RESET << std::endl;
             return (1);
         }
         getline(element, btcNB);
-        if (atof(btcNB.c_str()) > INT_MAX || atof(btcNB.c_str()) < INT_MIN)
+        if (atof(btcNB.c_str()) > 1000)
         {
             std::cout << ORANGE BOLD << "Error: too large number" RESET << std::endl;
             return (1);
@@ -145,44 +142,36 @@ int BitcoinExchange::checkDates(std::string date)
     return 0; 
 }
 
-void BitcoinExchange::initInput(std::string line)
-{
-    std::istringstream data(line);
-    std::string date, btcNB;
-
-    getline(data, date, '|');
-    getline(data, btcNB);
-
-    _inputMap[date] = atof(btcNB.c_str());
-}
-
 /*Finding correct rate to the date in database file*/
 
-void BitcoinExchange::convertRate(void)
+void BitcoinExchange::convertRate(std::string line)
 {
-    for (std::map<std::string, float>::iterator it = _inputMap.begin(); it != _inputMap.end(); ++it)
-    {
-        std::string date = it->first;
-        float btcNB = it->second;
-        
-        std::map<std::string, float>::iterator rateIt = _btcMap.lower_bound(date);
+    std::istringstream data(line);
+    std::string date;
+    std::string btcSTR;
+    float btcNB;
+    getline(data, date, '|');
+    getline(data, btcSTR);
 
-        if (rateIt == _btcMap.end() || rateIt->first != date)
+    btcNB = atof(btcSTR.c_str());
+    
+    std::map<std::string, float>::iterator rateIt = _btcMap.lower_bound(date);
+
+    if (rateIt == _btcMap.end() || rateIt->first != date)
+    {
+        if (rateIt != _btcMap.begin())
         {
-            if (rateIt != _btcMap.begin())
-            {
-                rateIt--;
-                float rate = rateIt->second;
-                std::cout << date << " => " << btcNB << " = " << btcNB * rate << std::endl;
-            }
-            else
-                std::cout << "ERROR" << std::endl;
-        }
-        else
-        {
-            float rate = rateIt->second; 
+            rateIt--;
+            float rate = rateIt->second;
             std::cout << date << " => " << btcNB << " = " << btcNB * rate << std::endl;
         }
+        else
+            std::cout << "ERROR" << std::endl;
+    }
+    else
+    {
+        float rate = rateIt->second; 
+        std::cout << date << " => " << btcNB << " = " << btcNB * rate << std::endl;
     }
 }
 
