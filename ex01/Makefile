@@ -4,7 +4,7 @@
 SRC_FOLDER	= srcs/
 SRC_FOLDER_BONUS = 
 
-SRC_FILES	= main.cpp RNP.cpp
+SRC_FILES	= main.cpp RPN.cpp
 SRC_FILES_BONUS = 
 BUILD = build/
 
@@ -17,11 +17,11 @@ DEP_FILES = $(OBJ_FILES:.o=.d)
 ###########################################################################
 #### ARGUMENTS
 
-NAME		= btc
+NAME		= RPN
 CC			= c++
 CFLAGS		= -Wall -Werror -Wextra -MMD -g3 -std=c++98
 
-INCLUDE	= RNP.hpp
+INCLUDE	= RPN.hpp
 INCLUDE_BONUS = 
 INCLUDE_PATH = includes/
 
