@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:51:32 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/27 14:15:22 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:17:47 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,14 @@ class Merge
         void sortVector();
 
         void displayList();
-        void displayVector() ;
-
-        void splitList() ;
-        void splitVector() ;
+        void displayVector();
+        
+        void vectorBS(std::vector<std::pair<unsigned int, unsigned int> > &pair);
 
         void swap(unsigned int& a, unsigned int& b) ;
 
         void recursiveInit(std::vector<std::pair<unsigned int, unsigned int> >& pair);
-        // std::list<unsigned int> recursiveInit(std::pair<unsigned int, unsigned int>pair);
+        void recursiveInit(std::list<std::pair<unsigned int, unsigned int> >&pair);
         
     private :
 

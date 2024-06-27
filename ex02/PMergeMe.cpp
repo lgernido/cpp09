@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:51:59 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/27 14:59:10 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:41:04 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void Merge::displayVector()
     std::cout << std::endl;
 }
 
-void Merge::splitList() 
+void Merge::sortList() 
 {
     int pairNumber = list.size() / 2;
     std::cout << "Number of pairs: " << pairNumber << std::endl;
@@ -127,9 +127,12 @@ void Merge::splitList()
             std::swap(pairIt->first, pairIt->second);
         }
     }
+    list.clear();
+    recursiveInit(pairs);
+    displayList();
 }
 
-void Merge::splitVector() 
+void Merge::sortVector() 
 {
     int pairNumber = vector.size() / 2;
     std::cout << "Number of pairs: " << pairNumber << std::endl;
@@ -202,12 +205,59 @@ void Merge::recursiveInit(std::vector<std::pair<unsigned int, unsigned int> >& p
     recursiveInit(pair); 
 }
 
-void Merge::sortVector() 
+void Merge::recursiveInit(std::list<std::pair<unsigned int, unsigned int> >&pair)
 {
-    this->splitVector();
+   if (pair.empty())
+   {
+        return;
+   }
+    unsigned int valueToInsert = pair.front().second;
+    bool inserted = false;
+
+    for (std::list<unsigned int>::iterator it = list.begin(); it != list.end(); ++it) 
+    {
+        if (*it > valueToInsert) 
+        {
+            list.insert(it, valueToInsert);
+            inserted = true;
+            break;
+        }
+    }
+    if (!inserted) 
+    {
+        list.push_back(valueToInsert);
+    }
+
+    pair.pop_front();
+    recursiveInit(pair);
 }
 
-void Merge::sortList() 
+void Merge::vectorBS(std::vector<std::pair<unsigned int, unsigned int> > &pair)
 {
-    this->splitList();
+    unsigned int valueToInsert = pair[0].first;
+    bool inserted = false;
+    int start = vector.begin();
+    int end = vector.end();
+    size_t size = vector.size() - 1;
+    
+    while (!inserted && start <= end)
+    {
+        size_t vectorHalf = vector.size() / 2;
+        if (valueToInsert == vector[vectorHalf])
+        {
+            inserted = true;
+        }
+        else if (valueToInsert > vector[vectorHalf])
+        {
+            start = vectorHalf + 1;
+        }
+        else
+        {
+            end = vectorHalf - 1;
+        } 
+    }
+    if (inserted == true)
+    {
+        vector.insert
+    }
 }
