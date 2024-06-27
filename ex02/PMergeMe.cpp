@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PMergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:51:59 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/27 15:41:04 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/27 18:27:33 by luciegernid      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,28 @@ void Merge::displayVector()
     std::cout << std::endl;
 }
 
+void Merge::displaySortedVector() 
+{
+    std::cout << "After (vector): ";
+    for (std::vector<unsigned int>::const_iterator it = vector.begin(); it!=vector.end(); ++it)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+}
+
+void Merge::displaySortedList() 
+{
+    std::cout << "After: ";
+    for (std::list<unsigned int>::const_iterator it = list.begin(); it != list.end(); ++it) 
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+}
+
 void Merge::sortList() 
 {
-    int pairNumber = list.size() / 2;
-    std::cout << "Number of pairs: " << pairNumber << std::endl;
-
     std::list<unsigned int>::const_iterator it = list.begin();
     std::list< std::pair<unsigned int, unsigned int> > pairs;
 
@@ -109,14 +126,12 @@ void Merge::sortList()
         {
             unsigned int second = *it;
             pairs.push_back(std::make_pair(first, second));
-            std::cout << "(" << first << ", " << second << ")" << std::endl;
             ++it;
         }
         else 
         {
             unsigned int second = 0;
             pairs.push_back(std::make_pair(first, second));
-            std::cout << "(" << first << ", NULL)" << std::endl;
         }
     }
     std::list<std::pair<unsigned int, unsigned int> >::iterator pairIt;
@@ -129,14 +144,12 @@ void Merge::sortList()
     }
     list.clear();
     recursiveInit(pairs);
-    displayList();
+    listBS(pairs);
+    displaySortedList();
 }
 
 void Merge::sortVector() 
 {
-    int pairNumber = vector.size() / 2;
-    std::cout << "Number of pairs: " << pairNumber << std::endl;
-
     std::vector<unsigned int>::const_iterator it = vector.begin();
     std::vector< std::pair<unsigned int, unsigned int> > pairs;
     
@@ -148,14 +161,12 @@ void Merge::sortVector()
         {
             unsigned int second = *it;
             pairs.push_back(std::make_pair(first, second));
-            std::cout << "(" << first << ", " << second << ")" << std::endl;
             ++it;
         }
         else
         {
             unsigned int second = 0;
             pairs.push_back(std::make_pair(first, second));
-            std::cout << "(" <<  first << ", NULL)" << std::endl; 
         }
     }
     for (size_t i = 0; i < pairs.size(); ++i) 
@@ -167,7 +178,8 @@ void Merge::sortVector()
     }
     vector.clear();
     recursiveInit(pairs);
-    displayVector();
+    vectorBS(pairs);
+    displaySortedVector();
 }
 
 void Merge::recursiveInit(std::vector<std::pair<unsigned int, unsigned int> >& pair) 
@@ -231,33 +243,55 @@ void Merge::recursiveInit(std::list<std::pair<unsigned int, unsigned int> >&pair
     pair.pop_front();
     recursiveInit(pair);
 }
-
-void Merge::vectorBS(std::vector<std::pair<unsigned int, unsigned int> > &pair)
+void Merge::vectorBS(std::vector<std::pair<unsigned int, unsigned int> >& pair) 
 {
-    unsigned int valueToInsert = pair[0].first;
-    bool inserted = false;
-    int start = vector.begin();
-    int end = vector.end();
-    size_t size = vector.size() - 1;
-    
-    while (!inserted && start <= end)
+    for (size_t i = 0; i < pair.size(); ++i) 
     {
-        size_t vectorHalf = vector.size() / 2;
-        if (valueToInsert == vector[vectorHalf])
+        unsigned int valueToInsert = pair[i].first;
+        int start = 0;
+        int end = vector.size() - 1;
+
+        while (start <= end) 
         {
-            inserted = true;
+            int mid = start + (end - start) / 2;
+            if (vector[mid] <= valueToInsert) 
+            {
+                start = mid + 1;
+            } 
+            else 
+            {
+                end = mid - 1;
+            }
         }
-        else if (valueToInsert > vector[vectorHalf])
-        {
-            start = vectorHalf + 1;
-        }
-        else
-        {
-            end = vectorHalf - 1;
-        } 
+        vector.insert(vector.begin() + start, valueToInsert);
     }
-    if (inserted == true)
+}
+
+void Merge::listBS(std::list<std::pair<unsigned int, unsigned int> >& pair) 
+{
+    std::list<std::pair<unsigned int, unsigned int> >::iterator it;
+    for (it = pair.begin(); it != pair.end(); ++it) 
     {
-        vector.insert
+        unsigned int valueToInsert = it->first;
+
+        std::list<unsigned int>::iterator start = list.begin();
+        std::list<unsigned int>::iterator end = list.end();
+        
+        while (start != end) 
+        {
+            std::list<unsigned int>::iterator mid = start;
+            std::advance(mid, std::distance(start, end) / 2);
+
+            if (*mid < valueToInsert) 
+            {
+                ++mid;
+                start = mid;
+            } 
+            else 
+            {
+                end = mid;
+            }
+        }
+        list.insert(start, valueToInsert);
     }
 }

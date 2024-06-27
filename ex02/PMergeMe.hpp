@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PMergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:51:32 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/27 15:17:47 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/27 18:25:45 by luciegernid      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,11 @@ class Merge
 
         void displayList();
         void displayVector();
+        void displaySortedVector();
+        void displaySortedList();
         
         void vectorBS(std::vector<std::pair<unsigned int, unsigned int> > &pair);
+        void listBS(std::list<std::pair<unsigned int, unsigned int> > &pair);
 
         void swap(unsigned int& a, unsigned int& b) ;
 
