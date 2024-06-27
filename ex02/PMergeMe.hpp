@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:51:32 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/25 15:08:35 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:15:22 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <list>
-#include <deque>
+#include <vector>
+#include <utility>
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -60,16 +61,27 @@ class Merge
         Merge(Merge const &src);
         Merge& operator=(const Merge& src);
 
-        int parseInput(char **argv);
+        int parseInput(int argc, char **argv);
 
-        void sortList();
-        std::deque<int> sortDeque(std::deque<int>& dq);
+        void sortList() ;
+        void sortVector();
 
+        void displayList();
+        void displayVector() ;
+
+        void splitList() ;
+        void splitVector() ;
+
+        void swap(unsigned int& a, unsigned int& b) ;
+
+        void recursiveInit(std::vector<std::pair<unsigned int, unsigned int> >& pair);
+        // std::list<unsigned int> recursiveInit(std::pair<unsigned int, unsigned int>pair);
+        
     private :
 
         std::list<unsigned int>list;
-        std::deque<unsigned int>deque;
-}
+        std::vector<unsigned int>vector;
+};
 
 /*****************************************************************************/
 /*                                  TEMPLATES                                */
