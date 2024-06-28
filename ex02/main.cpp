@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:52:11 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/28 09:31:14 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:38:44 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 int main(int argc, char **argv) 
 {
     Merge merge;
-    if (merge.parseInput(argc, argv) == 0) {
+    if (merge.parseInput(argc, argv) == 0) 
+    {
         merge.displayList();
         // merge.displayVector();
-    }
-    merge.sortList();
-    merge.sortVector();
-    
+        merge.sortList();
+        merge.sortVector();
+    } 
     return 0;
 }

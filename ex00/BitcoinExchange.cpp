@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:34:04 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/25 10:43:10 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:37:24 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,18 @@ void BitcoinExchange::parseFile()
 	return ;
 }
 
+int BitcoinExchange::digitCheck(std::string line)
+{
+    for (size_t i = 0; i < line.size(); ++i)
+    {
+        if (!isdigit(line[i]))
+        {
+            return (1);
+        }
+    }
+    return (0);
+}
+
 int BitcoinExchange::checkDates(std::string date)
 {
     if (date.size() < 14 || date[4] != '-' || date[7] != '-')
@@ -110,19 +122,19 @@ int BitcoinExchange::checkDates(std::string date)
         std::istringstream element(date);
 
         getline(element, year, '-');
-        if (year.size() != 4)
+        if (year.size() != 4 || digitCheck(year))
         {
             std::cout << ORANGE BOLD "Error: bad year input =>" << year << RESET << std::endl;
             return (1);
         }
         getline(element, month, '-');
-        if(month.size() != 2 || (atoi(month.c_str())) < 1 || (atoi(month.c_str())) > 12)
+        if(month.size() != 2 || (atoi(month.c_str())) < 1 || (atoi(month.c_str())) > 12 || digitCheck(month))
         {
             std::cout << ORANGE BOLD "Error: bad month input => " << month << RESET << std::endl;
             return (1);
         }
         getline(element, day, '|');
-        if(day.size() != 3 || (atoi(day.c_str())) < 1 || (atoi(day.c_str())) > 31)
+        if(day.size() != 3 || (atoi(day.c_str())) < 1 || (atoi(day.c_str())) > 31 || !isdigit(day[1]) || !isdigit(day[0]))
         {
             std::cout << ORANGE BOLD "Error: bad day input => " << day << RESET << std::endl;
             return (1);
@@ -137,6 +149,14 @@ int BitcoinExchange::checkDates(std::string date)
         {
             std::cout << ORANGE BOLD << "Error: not a positive number" RESET << std::endl;
             return(1);
+        }
+        if (!(atoi(year.c_str()) % 4 == 0 && atoi(year.c_str()) % 100 != 0) || atoi(year.c_str()) % 400 == 0)
+        {
+            if (atoi(month.c_str()) == 02 && atoi(day.c_str()) > 28)
+            {
+                std::cout << ORANGE BOLD << "Error: not a leap year" RESET << std::endl;
+                return (1);
+            }
         }
     }
     return 0; 

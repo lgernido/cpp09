@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:31:35 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/25 10:41:50 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:20:11 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ class BitcoinExchange
         void initRates(std::string line);
 
         int checkDates(std::string date);
+        int digitCheck(std::string line);
 
     
 };
