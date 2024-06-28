@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:34:04 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/28 10:37:24 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:53:50 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ void BitcoinExchange::convertRate(std::string line)
     btcNB = atof(btcSTR.c_str());
     
     std::map<std::string, float>::iterator rateIt = _btcMap.lower_bound(date);
+    /*Returns to the fist element that is bigger than the date*/
 
     if (rateIt == _btcMap.end() || rateIt->first != date)
     {
