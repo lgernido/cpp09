@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PMergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:51:32 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/27 18:25:45 by luciegernid      ###   ########.fr       */
+/*   Updated: 2024/06/28 09:19:06 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ class Merge
 
         void recursiveInit(std::vector<std::pair<unsigned int, unsigned int> >& pair);
         void recursiveInit(std::list<std::pair<unsigned int, unsigned int> >&pair);
+
+        void getTime(clock_t begin, clock_t finish, std::string type, int elements);
         
     private :
 

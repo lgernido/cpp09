@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PMergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:51:59 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/27 18:27:33 by luciegernid      ###   ########.fr       */
+/*   Updated: 2024/06/28 09:31:25 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void Merge::displaySortedList()
 
 void Merge::sortList() 
 {
+    clock_t begin = clock();
     std::list<unsigned int>::const_iterator it = list.begin();
     std::list< std::pair<unsigned int, unsigned int> > pairs;
 
@@ -143,13 +144,17 @@ void Merge::sortList()
         }
     }
     list.clear();
-    recursiveInit(pairs);
+    std::list< std::pair<unsigned int, unsigned int> > new_pairs = pairs;
+    recursiveInit(new_pairs);
     listBS(pairs);
+    clock_t finish = clock();
     displaySortedList();
+    getTime(begin, finish, "list", static_cast<int>(list.size()));
 }
 
 void Merge::sortVector() 
 {
+    clock_t begin = clock();
     std::vector<unsigned int>::const_iterator it = vector.begin();
     std::vector< std::pair<unsigned int, unsigned int> > pairs;
     
@@ -177,9 +182,12 @@ void Merge::sortVector()
         }
     }
     vector.clear();
-    recursiveInit(pairs);
+    std::vector< std::pair<unsigned int, unsigned int> > new_pairs = pairs;
+    recursiveInit(new_pairs);
     vectorBS(pairs);
-    displaySortedVector();
+    clock_t finish = clock();
+    // displaySortedVector();
+    getTime(begin, finish, "vector", static_cast<int>(vector.size()));
 }
 
 void Merge::recursiveInit(std::vector<std::pair<unsigned int, unsigned int> >& pair) 
@@ -243,6 +251,7 @@ void Merge::recursiveInit(std::list<std::pair<unsigned int, unsigned int> >&pair
     pair.pop_front();
     recursiveInit(pair);
 }
+
 void Merge::vectorBS(std::vector<std::pair<unsigned int, unsigned int> >& pair) 
 {
     for (size_t i = 0; i < pair.size(); ++i) 
@@ -294,4 +303,12 @@ void Merge::listBS(std::list<std::pair<unsigned int, unsigned int> >& pair)
         }
         list.insert(start, valueToInsert);
     }
+}
+
+void Merge::getTime(clock_t begin, clock_t finish, std::string type, int elements)
+{
+    clock_t endTime = finish - begin;
+    double execTime = (static_cast<double>(endTime) / static_cast<float>(CLOCKS_PER_SEC)) * 1000;
+    
+    std::cout << "Time to process a range of " << elements << " elements with std::" << type << " : " << execTime << std::endl;
 }

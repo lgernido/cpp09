@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:52:11 by lgernido          #+#    #+#             */
-/*   Updated: 2024/06/27 18:22:23 by luciegernid      ###   ########.fr       */
+/*   Updated: 2024/06/28 09:31:14 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@
 int main(int argc, char **argv) 
 {
     Merge merge;
-    /*Parsing et innitialisation des deux containeur*/
     if (merge.parseInput(argc, argv) == 0) {
         merge.displayList();
-        merge.displayVector();
+        // merge.displayVector();
     }
     merge.sortList();
     merge.sortVector();
